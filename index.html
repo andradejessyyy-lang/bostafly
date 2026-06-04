@@ -1,0 +1,948 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Bostafly — Envoie un document partout dans le monde en 48h</title>
+  <meta name="description" content="Bostafly met en relation expéditeurs et voyageurs partout dans le monde. Confiez vos documents et petits colis à un voyageur de confiance. Rapide, économique, sécurisé." />
+
+  <!-- Open Graph / Social -->
+  <meta property="og:title" content="Bostafly — Le crowdshipping mondial entre particuliers" />
+  <meta property="og:description" content="Confie ton document à un voyageur de confiance pour 18€, où qu'il aille dans le monde. Paiement sécurisé, code de remise, KYC vérifié." />
+  <meta property="og:image" content="https://bostafly.com/logo.png" />
+  <meta property="og:type" content="website" />
+  <meta property="og:url" content="https://bostafly.com" />
+
+  <link rel="icon" type="image/png" href="logo.png" />
+  <link rel="apple-touch-icon" href="logo.png" />
+
+  <!-- Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet" />
+
+  <!-- Tailwind CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            primary: {
+              50:  '#EBF4FD',
+              100: '#D6E9FB',
+              200: '#ADD2F7',
+              300: '#84BBF3',
+              400: '#5BA4EF',
+              500: '#318CE7', // Bostafly blue
+              600: '#1E73C9',
+              700: '#155A9D',
+              800: '#0E4275',
+              900: '#082B4D',
+            },
+            action: '#F5B800',
+            ink: {
+              DEFAULT: '#0F1B2C',
+              muted:   '#475569',
+              soft:    '#94A3B8',
+            },
+            cream: '#FFF8EA',
+          },
+          fontFamily: {
+            heading: ['"Plus Jakarta Sans"', 'system-ui', 'sans-serif'],
+            sans: ['Inter', 'system-ui', 'sans-serif'],
+          },
+        },
+      },
+    };
+  </script>
+
+  <style>
+    html { scroll-behavior: smooth; }
+    body { font-family: 'Inter', system-ui, sans-serif; color: #0F1B2C; }
+    h1, h2, h3, h4 { font-family: 'Plus Jakarta Sans', sans-serif; letter-spacing: -0.02em; }
+
+    /* Hero gradient mesh */
+    .hero-gradient {
+      background:
+        radial-gradient(at 15% 20%, rgba(49, 140, 231, 0.20) 0px, transparent 50%),
+        radial-gradient(at 85% 30%, rgba(245, 184, 0, 0.15) 0px, transparent 50%),
+        radial-gradient(at 50% 80%, rgba(49, 140, 231, 0.10) 0px, transparent 50%);
+    }
+    .text-gradient {
+      background: linear-gradient(135deg, #318CE7 0%, #1E73C9 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+    .glass {
+      background: rgba(255, 255, 255, 0.7);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+    }
+
+    /* Smooth fade-up on scroll */
+    .reveal {
+      opacity: 0;
+      transform: translateY(24px);
+      transition: opacity 0.7s cubic-bezier(0.16, 1, 0.3, 1), transform 0.7s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+    .reveal.visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    /* Floating animation for hero phone */
+    @keyframes float {
+      0%, 100% { transform: translateY(0); }
+      50% { transform: translateY(-12px); }
+    }
+    .float { animation: float 6s ease-in-out infinite; }
+
+    /* Plane icon */
+    @keyframes fly {
+      0% { transform: translate(0, 0) rotate(-10deg); }
+      100% { transform: translate(120%, -40%) rotate(-10deg); }
+    }
+
+    /* Faqs */
+    details > summary { list-style: none; cursor: pointer; }
+    details > summary::-webkit-details-marker { display: none; }
+    details[open] .faq-chev { transform: rotate(180deg); }
+
+    /* Nav blur on scroll */
+    .nav-scrolled { background: rgba(255, 255, 255, 0.85); backdrop-filter: blur(16px); box-shadow: 0 1px 0 rgba(0,0,0,0.05); }
+  </style>
+</head>
+<body class="bg-white antialiased">
+
+  <!-- ============= NAVIGATION ============= -->
+  <nav id="nav" class="fixed top-0 left-0 right-0 z-50 transition-all duration-300">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between">
+      <a href="#" class="flex items-center gap-3 group">
+        <img src="icon-only.png" alt="Bostafly" class="h-12 w-auto transition group-hover:scale-105" />
+        <span class="font-heading font-extrabold text-2xl text-ink group-hover:text-primary-500 transition">Bostafly</span>
+      </a>
+      <div class="hidden md:flex items-center gap-8">
+        <a href="#how" class="text-sm font-medium text-ink-muted hover:text-ink transition">Comment ça marche</a>
+        <a href="#senders" class="text-sm font-medium text-ink-muted hover:text-ink transition">Expéditeurs</a>
+        <a href="#travelers" class="text-sm font-medium text-ink-muted hover:text-ink transition">Voyageurs</a>
+        <a href="#security" class="text-sm font-medium text-ink-muted hover:text-ink transition">Sécurité</a>
+        <a href="#faq" class="text-sm font-medium text-ink-muted hover:text-ink transition">FAQ</a>
+      </div>
+      <a href="#download" class="hidden sm:inline-flex items-center gap-2 bg-primary-500 hover:bg-primary-600 text-white font-semibold text-sm px-5 py-2.5 rounded-full transition shadow-md hover:shadow-lg hover:-translate-y-0.5">
+        Télécharger l'app
+        <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5"><path stroke-linecap="round" stroke-linejoin="round" d="M17 8l4 4m0 0l-4 4m4-4H3" /></svg>
+      </a>
+    </div>
+  </nav>
+
+  <!-- ============= HERO ============= -->
+  <section class="relative pt-32 pb-20 lg:pt-40 lg:pb-32 overflow-hidden hero-gradient">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="grid lg:grid-cols-2 gap-12 lg:gap-16 items-center">
+
+        <!-- Left: text + CTA -->
+        <div class="reveal">
+          <div class="inline-flex items-center gap-2 px-4 py-2 bg-cream rounded-full text-sm font-semibold text-action mb-6">
+            <span class="w-2 h-2 bg-action rounded-full animate-pulse"></span>
+            🌍 Partout dans le monde — en 48h
+          </div>
+          <h1 class="text-5xl sm:text-6xl lg:text-7xl font-extrabold leading-[1.05] mb-6">
+            Envoie un document<br />
+            <span class="text-gradient">d'un continent à l'autre</span><br />
+            pour <span class="text-action">18€</span>.
+          </h1>
+          <p class="text-lg lg:text-xl text-ink-muted leading-relaxed mb-8 max-w-xl">
+            Bostafly met en relation expéditeurs et voyageurs partout dans le monde.
+            Plus rapide qu'un transporteur, moins cher qu'un courrier express,
+            et chaque livraison est sécurisée par un code à 4 chiffres.
+            <span class="block mt-2 text-sm text-primary-600 font-semibold">
+              Premier corridor : France ↔ Maroc · Nouveaux pays bientôt.
+            </span>
+          </p>
+          <div class="flex flex-col sm:flex-row gap-4">
+            <a href="#download" class="inline-flex items-center justify-center gap-3 bg-primary-500 hover:bg-primary-600 text-white font-bold text-base px-8 py-4 rounded-full transition shadow-xl hover:shadow-2xl hover:-translate-y-0.5">
+              Télécharger l'app
+              <svg class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5"><path stroke-linecap="round" stroke-linejoin="round" d="M19 14l-7 7m0 0l-7-7m7 7V3" /></svg>
+            </a>
+            <a href="#how" class="inline-flex items-center justify-center gap-2 bg-white hover:bg-slate-50 text-ink font-bold text-base px-8 py-4 rounded-full transition border border-slate-200 shadow-sm hover:shadow-md">
+              Voir comment ça marche
+            </a>
+          </div>
+          <div class="flex items-center gap-6 mt-10 flex-wrap">
+            <div class="flex items-center gap-2">
+              <div class="flex -space-x-2">
+                <div class="w-8 h-8 rounded-full bg-primary-300 border-2 border-white flex items-center justify-center text-xs font-bold text-white">A</div>
+                <div class="w-8 h-8 rounded-full bg-action border-2 border-white flex items-center justify-center text-xs font-bold text-white">K</div>
+                <div class="w-8 h-8 rounded-full bg-primary-500 border-2 border-white flex items-center justify-center text-xs font-bold text-white">M</div>
+                <div class="w-8 h-8 rounded-full bg-primary-700 border-2 border-white flex items-center justify-center text-xs font-bold text-white">L</div>
+              </div>
+              <span class="text-sm text-ink-muted font-medium">+1 200 voyageurs</span>
+            </div>
+            <div class="flex items-center gap-1">
+              <svg class="w-5 h-5 text-action" fill="currentColor" viewBox="0 0 20 20"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"/></svg>
+              <svg class="w-5 h-5 text-action" fill="currentColor" viewBox="0 0 20 20"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"/></svg>
+              <svg class="w-5 h-5 text-action" fill="currentColor" viewBox="0 0 20 20"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"/></svg>
+              <svg class="w-5 h-5 text-action" fill="currentColor" viewBox="0 0 20 20"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"/></svg>
+              <svg class="w-5 h-5 text-action" fill="currentColor" viewBox="0 0 20 20"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"/></svg>
+              <span class="text-sm text-ink-muted font-medium ml-1">4.9 sur 250 avis</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Right: phone mockup -->
+        <div class="relative reveal">
+          <div class="relative max-w-sm mx-auto float">
+            <!-- Floating decorations -->
+            <div class="absolute -top-6 -left-10 w-20 h-20 bg-action/30 rounded-full blur-2xl"></div>
+            <div class="absolute -bottom-6 -right-10 w-28 h-28 bg-primary-500/20 rounded-full blur-2xl"></div>
+
+            <!-- Phone frame -->
+            <div class="relative bg-ink rounded-[3rem] p-3 shadow-2xl">
+              <div class="bg-white rounded-[2.5rem] overflow-hidden">
+                <!-- Status bar -->
+                <div class="h-7 bg-primary-500 flex items-center justify-between px-6 text-white text-xs font-semibold">
+                  <span>9:41</span>
+                  <div class="w-20 h-5 bg-ink rounded-b-2xl"></div>
+                  <span>100%</span>
+                </div>
+                <!-- App content -->
+                <div class="bg-gradient-to-b from-primary-500 to-primary-700 px-5 py-6 text-white">
+                  <p class="text-xs opacity-80">Trajet disponible</p>
+                  <h3 class="font-heading font-bold text-xl mt-1">Paris → Casablanca</h3>
+                  <p class="text-xs opacity-80 mt-1">Départ le 12 juin · Soufiane</p>
+                </div>
+                <div class="p-5 space-y-3">
+                  <div class="bg-cream rounded-2xl p-4 flex items-center gap-3">
+                    <div class="w-10 h-10 rounded-xl bg-action flex items-center justify-center text-white font-bold">📄</div>
+                    <div class="flex-1">
+                      <p class="font-semibold text-sm">Passeport</p>
+                      <p class="text-xs text-ink-muted">2 enveloppes A4</p>
+                    </div>
+                  </div>
+                  <div class="bg-primary-50 rounded-2xl p-4">
+                    <p class="text-xs text-primary-700 font-semibold">Code à 4 chiffres</p>
+                    <p class="font-heading font-extrabold text-3xl text-primary-600 tracking-widest mt-1">7 3 4 9</p>
+                  </div>
+                  <button class="w-full bg-action hover:bg-action/90 text-ink font-bold py-3 rounded-2xl text-sm transition">
+                    Confirmer la remise
+                  </button>
+                </div>
+              </div>
+            </div>
+
+            <!-- Floating message bubble -->
+            <div class="absolute -bottom-4 -left-12 bg-white rounded-2xl shadow-xl p-3 max-w-[180px] glass border border-white">
+              <div class="flex items-center gap-2 mb-1">
+                <div class="w-6 h-6 rounded-full bg-primary-500 text-white text-xs font-bold flex items-center justify-center">M</div>
+                <span class="text-xs font-semibold">Mehdi</span>
+              </div>
+              <p class="text-xs text-ink-muted">Document remis 👍 Bon voyage !</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============= TRUST STRIP ============= -->
+  <section class="border-y border-slate-100 bg-slate-50/50 py-8">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <p class="text-center text-xs font-semibold uppercase tracking-widest text-ink-soft mb-6">
+        Comme vu chez ces partenaires de confiance
+      </p>
+      <div class="flex items-center justify-center gap-8 sm:gap-12 flex-wrap opacity-60">
+        <div class="flex items-center gap-2">
+          <svg class="w-6 h-6 text-ink" fill="currentColor" viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z"/></svg>
+          <span class="font-heading font-bold">Stripe</span>
+        </div>
+        <span class="font-heading font-bold text-ink">RGPD Compliant</span>
+        <span class="font-heading font-bold text-ink">SIRET 889 010 591</span>
+        <span class="font-heading font-bold text-ink">KYC vérifié</span>
+        <span class="font-heading font-bold text-ink">🇫🇷 Made in France</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============= HOW IT WORKS ============= -->
+  <section id="how" class="py-24 lg:py-32">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="max-w-3xl mx-auto text-center mb-16 reveal">
+        <div class="inline-block px-4 py-1.5 bg-primary-50 rounded-full text-sm font-semibold text-primary-700 mb-4">
+          Comment ça marche
+        </div>
+        <h2 class="text-4xl lg:text-5xl font-extrabold leading-tight">
+          3 étapes pour faire voyager<br />
+          <span class="text-gradient">ton document.</span>
+        </h2>
+      </div>
+
+      <div class="grid md:grid-cols-3 gap-8">
+        <div class="reveal text-center group">
+          <div class="relative inline-block mb-6">
+            <div class="absolute inset-0 bg-primary-500/20 rounded-3xl blur-2xl scale-110 group-hover:scale-125 transition"></div>
+            <div class="relative w-24 h-24 mx-auto rounded-3xl bg-gradient-to-br from-primary-500 to-primary-700 flex items-center justify-center text-white text-4xl shadow-xl">
+              🔍
+            </div>
+            <div class="absolute -top-2 -right-2 w-10 h-10 bg-action rounded-full flex items-center justify-center text-ink font-extrabold text-lg shadow-lg">1</div>
+          </div>
+          <h3 class="text-2xl font-bold mb-3">Trouve un voyageur</h3>
+          <p class="text-ink-muted leading-relaxed">
+            Parcours les trajets prévus partout dans le monde.
+            Tu vois leur photo, leur note, et leur capacité disponible.
+          </p>
+        </div>
+
+        <div class="reveal text-center group">
+          <div class="relative inline-block mb-6">
+            <div class="absolute inset-0 bg-action/30 rounded-3xl blur-2xl scale-110 group-hover:scale-125 transition"></div>
+            <div class="relative w-24 h-24 mx-auto rounded-3xl bg-gradient-to-br from-action to-yellow-600 flex items-center justify-center text-white text-4xl shadow-xl">
+              💳
+            </div>
+            <div class="absolute -top-2 -right-2 w-10 h-10 bg-primary-500 rounded-full flex items-center justify-center text-white font-extrabold text-lg shadow-lg">2</div>
+          </div>
+          <h3 class="text-2xl font-bold mb-3">Réserve et paie</h3>
+          <p class="text-ink-muted leading-relaxed">
+            Paye 18€ via Stripe. Le montant est bloqué jusqu'à la
+            remise. Tu reçois un code secret à 4 chiffres.
+          </p>
+        </div>
+
+        <div class="reveal text-center group">
+          <div class="relative inline-block mb-6">
+            <div class="absolute inset-0 bg-primary-500/20 rounded-3xl blur-2xl scale-110 group-hover:scale-125 transition"></div>
+            <div class="relative w-24 h-24 mx-auto rounded-3xl bg-gradient-to-br from-primary-600 to-primary-800 flex items-center justify-center text-white text-4xl shadow-xl">
+              ✅
+            </div>
+            <div class="absolute -top-2 -right-2 w-10 h-10 bg-action rounded-full flex items-center justify-center text-ink font-extrabold text-lg shadow-lg">3</div>
+          </div>
+          <h3 class="text-2xl font-bold mb-3">Code de remise</h3>
+          <p class="text-ink-muted leading-relaxed">
+            Le voyageur ne reçoit son paiement qu'après avoir saisi
+            ton code à 4 chiffres. Tu es protégé du début à la fin.
+          </p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============= FOR SENDERS ============= -->
+  <section id="senders" class="py-24 lg:py-32 bg-slate-50">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="grid lg:grid-cols-2 gap-16 items-center">
+        <div class="reveal order-2 lg:order-1">
+          <div class="relative max-w-sm mx-auto">
+            <div class="absolute inset-0 bg-gradient-to-br from-primary-500 to-action rounded-[3rem] blur-3xl opacity-20"></div>
+            <div class="relative bg-white rounded-[2.5rem] p-6 shadow-2xl">
+              <div class="space-y-4">
+                <div class="flex items-center justify-between">
+                  <div class="flex items-center gap-3">
+                    <div class="w-12 h-12 rounded-2xl bg-cream flex items-center justify-center text-2xl">📄</div>
+                    <div>
+                      <p class="font-bold">Contrat notaire</p>
+                      <p class="text-xs text-ink-muted">2 enveloppes</p>
+                    </div>
+                  </div>
+                  <span class="px-3 py-1 bg-action/20 text-action font-bold text-xs rounded-full">18 €</span>
+                </div>
+                <div class="bg-slate-50 rounded-2xl p-4">
+                  <p class="text-xs text-ink-muted">Voyageur</p>
+                  <div class="flex items-center justify-between mt-2">
+                    <div class="flex items-center gap-2">
+                      <div class="w-8 h-8 rounded-full bg-primary-500 text-white font-bold text-sm flex items-center justify-center">K</div>
+                      <span class="font-semibold text-sm">Karim · ★ 4.9</span>
+                    </div>
+                    <span class="text-xs text-ink-muted">12 juin</span>
+                  </div>
+                </div>
+                <div class="bg-gradient-to-br from-primary-500 to-primary-700 rounded-2xl p-4 text-white">
+                  <p class="text-xs opacity-80">Ton code de remise</p>
+                  <p class="font-heading font-extrabold text-3xl tracking-widest mt-1">8 4 7 2</p>
+                  <p class="text-xs opacity-80 mt-2">Donne ce code uniquement à la remise</p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="reveal order-1 lg:order-2">
+          <div class="inline-block px-4 py-1.5 bg-primary-50 rounded-full text-sm font-semibold text-primary-700 mb-4">
+            Pour les expéditeurs
+          </div>
+          <h2 class="text-4xl lg:text-5xl font-extrabold leading-tight mb-6">
+            Plus rapide qu'un transporteur.<br />
+            <span class="text-gradient">Moins cher qu'un courrier.</span>
+          </h2>
+          <p class="text-lg text-ink-muted leading-relaxed mb-8">
+            Documents administratifs, contrats, papiers de famille, petits objets de valeur :
+            confie-les à un voyageur qui fait déjà le trajet.
+          </p>
+          <ul class="space-y-4">
+            <li class="flex gap-4">
+              <div class="w-10 h-10 rounded-xl bg-primary-100 text-primary-700 flex items-center justify-center font-bold shrink-0">⚡</div>
+              <div>
+                <h4 class="font-bold mb-1">Livraison en 48h max</h4>
+                <p class="text-ink-muted text-sm">Le voyageur part demain et arrive après-demain. C'est tout.</p>
+              </div>
+            </li>
+            <li class="flex gap-4">
+              <div class="w-10 h-10 rounded-xl bg-primary-100 text-primary-700 flex items-center justify-center font-bold shrink-0">💸</div>
+              <div>
+                <h4 class="font-bold mb-1">Tarif fixe à 18€</h4>
+                <p class="text-ink-muted text-sm">Pas de poids facturé, pas de surprise. Un prix, une livraison.</p>
+              </div>
+            </li>
+            <li class="flex gap-4">
+              <div class="w-10 h-10 rounded-xl bg-primary-100 text-primary-700 flex items-center justify-center font-bold shrink-0">🔐</div>
+              <div>
+                <h4 class="font-bold mb-1">100% remboursé en cas de problème</h4>
+                <p class="text-ink-muted text-sm">Si le voyageur annule ou ne livre pas, tu récupères ton argent.</p>
+              </div>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============= FOR TRAVELERS ============= -->
+  <section id="travelers" class="py-24 lg:py-32">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="grid lg:grid-cols-2 gap-16 items-center">
+        <div class="reveal">
+          <div class="inline-block px-4 py-1.5 bg-cream rounded-full text-sm font-semibold text-action mb-4">
+            Pour les voyageurs
+          </div>
+          <h2 class="text-4xl lg:text-5xl font-extrabold leading-tight mb-6">
+            Rentabilise tes voyages.<br />
+            <span class="text-action">Jusqu'à 65€ par trajet.</span>
+          </h2>
+          <p class="text-lg text-ink-muted leading-relaxed mb-6">
+            <strong class="text-ink">13€ par colis</strong> accepté, et tu choisis combien
+            tu en prends (jusqu'à 5 par trajet). Casablanca, Dakar, Beyrouth, New York,
+            Dubai, Bangkok... quel que soit ton vol, publie ton trajet en 30 secondes.
+          </p>
+          <!-- Calcul cumul visible -->
+          <div class="bg-cream rounded-2xl p-4 mb-8 border border-action/30">
+            <p class="text-xs font-semibold text-ink-muted mb-2 uppercase tracking-wide">Exemple concret</p>
+            <div class="flex items-center gap-4 flex-wrap">
+              <div class="flex items-center gap-2">
+                <span class="font-heading font-extrabold text-2xl text-action">5</span>
+                <span class="text-sm text-ink-muted">colis ×</span>
+                <span class="font-heading font-extrabold text-2xl text-action">13€</span>
+              </div>
+              <span class="text-ink-muted">=</span>
+              <div>
+                <span class="font-heading font-extrabold text-3xl text-ink">65€</span>
+                <span class="text-sm text-ink-muted ml-1">/ trajet</span>
+              </div>
+            </div>
+            <p class="text-xs text-ink-muted mt-2">
+              Sur un Paris ↔ Casablanca à ~150€, ça te rembourse <strong>43% de ton billet d'avion</strong>.
+            </p>
+          </div>
+          <ul class="space-y-4">
+            <li class="flex gap-4">
+              <div class="w-10 h-10 rounded-xl bg-cream text-action flex items-center justify-center font-bold shrink-0">✈️</div>
+              <div>
+                <h4 class="font-bold mb-1">Publie ton trajet en 30 sec</h4>
+                <p class="text-ink-muted text-sm">Départ, arrivée, date, capacité. C'est tout.</p>
+              </div>
+            </li>
+            <li class="flex gap-4">
+              <div class="w-10 h-10 rounded-xl bg-cream text-action flex items-center justify-center font-bold shrink-0">👋</div>
+              <div>
+                <h4 class="font-bold mb-1">Tu choisis qui tu acceptes</h4>
+                <p class="text-ink-muted text-sm">Tu vois les profils, leurs notes, et tu valides chaque demande.</p>
+              </div>
+            </li>
+            <li class="flex gap-4">
+              <div class="w-10 h-10 rounded-xl bg-cream text-action flex items-center justify-center font-bold shrink-0">💳</div>
+              <div>
+                <h4 class="font-bold mb-1">Tu reçois ton argent sans risque</h4>
+                <p class="text-ink-muted text-sm">L'expéditeur paie d'avance. Une fois le code saisi, l'argent est à toi.</p>
+              </div>
+            </li>
+          </ul>
+        </div>
+        <div class="reveal">
+          <div class="relative max-w-sm mx-auto">
+            <div class="absolute inset-0 bg-gradient-to-br from-action to-primary-500 rounded-[3rem] blur-3xl opacity-20"></div>
+            <div class="relative bg-white rounded-[2.5rem] p-6 shadow-2xl">
+              <div class="space-y-4">
+                <div class="bg-gradient-to-br from-action to-yellow-600 rounded-2xl p-5 text-white">
+                  <p class="text-xs opacity-80">Solde du mois</p>
+                  <p class="font-heading font-extrabold text-4xl mt-1">156 €</p>
+                  <p class="text-xs opacity-80 mt-1">12 livraisons effectuées</p>
+                </div>
+                <div class="bg-slate-50 rounded-2xl p-4">
+                  <p class="text-xs text-ink-muted mb-2">Trajets à venir</p>
+                  <div class="flex items-center justify-between">
+                    <div class="flex items-center gap-2">
+                      <span class="text-xl">✈️</span>
+                      <div>
+                        <p class="font-semibold text-sm">Paris → Casablanca</p>
+                        <p class="text-xs text-ink-muted">12 juin</p>
+                      </div>
+                    </div>
+                    <span class="px-2 py-1 bg-primary-100 text-primary-700 text-xs font-bold rounded-full">3 demandes</span>
+                  </div>
+                </div>
+                <div class="bg-slate-50 rounded-2xl p-4">
+                  <div class="flex items-center justify-between">
+                    <div class="flex items-center gap-2">
+                      <span class="text-xl">✈️</span>
+                      <div>
+                        <p class="font-semibold text-sm">Paris → Dakar</p>
+                        <p class="text-xs text-ink-muted">28 juin</p>
+                      </div>
+                    </div>
+                    <span class="px-2 py-1 bg-action/20 text-action text-xs font-bold rounded-full">1 demande</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============= SECURITY ============= -->
+  <section id="security" class="py-24 lg:py-32 bg-ink text-white relative overflow-hidden">
+    <!-- Decoration -->
+    <div class="absolute top-0 left-0 w-96 h-96 bg-primary-500/20 rounded-full blur-3xl"></div>
+    <div class="absolute bottom-0 right-0 w-96 h-96 bg-action/10 rounded-full blur-3xl"></div>
+
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative">
+      <div class="max-w-3xl mx-auto text-center mb-16 reveal">
+        <div class="inline-block px-4 py-1.5 bg-white/10 rounded-full text-sm font-semibold mb-4">
+          Sécurité & confiance
+        </div>
+        <h2 class="text-4xl lg:text-5xl font-extrabold leading-tight mb-4">
+          On a pensé à tout.<br />
+          <span class="text-action">Tu n'as plus qu'à voyager.</span>
+        </h2>
+        <p class="text-lg text-white/70">
+          Bostafly est conçue avec 4 piliers de sécurité pour que chaque livraison
+          se passe sans accroc.
+        </p>
+      </div>
+
+      <div class="grid sm:grid-cols-2 lg:grid-cols-4 gap-6">
+        <div class="reveal bg-white/5 backdrop-blur-sm rounded-3xl p-6 border border-white/10 hover:bg-white/10 transition">
+          <div class="w-12 h-12 rounded-2xl bg-primary-500 flex items-center justify-center text-2xl mb-4">🪪</div>
+          <h3 class="font-bold text-xl mb-2">KYC vérifié</h3>
+          <p class="text-sm text-white/70 leading-relaxed">
+            Chaque utilisateur valide son identité avant de pouvoir publier ou réserver.
+          </p>
+        </div>
+        <div class="reveal bg-white/5 backdrop-blur-sm rounded-3xl p-6 border border-white/10 hover:bg-white/10 transition">
+          <div class="w-12 h-12 rounded-2xl bg-action flex items-center justify-center text-2xl mb-4">🔒</div>
+          <h3 class="font-bold text-xl mb-2">Paiement bloqué</h3>
+          <p class="text-sm text-white/70 leading-relaxed">
+            L'argent reste chez Stripe jusqu'à la remise. Aucun voyageur ne touche un centime avant.
+          </p>
+        </div>
+        <div class="reveal bg-white/5 backdrop-blur-sm rounded-3xl p-6 border border-white/10 hover:bg-white/10 transition">
+          <div class="w-12 h-12 rounded-2xl bg-primary-500 flex items-center justify-center text-2xl mb-4">🔢</div>
+          <h3 class="font-bold text-xl mb-2">Code 4 chiffres</h3>
+          <p class="text-sm text-white/70 leading-relaxed">
+            Seul l'expéditeur connaît le code. Sans ce code, pas de validation, pas de paiement.
+          </p>
+        </div>
+        <div class="reveal bg-white/5 backdrop-blur-sm rounded-3xl p-6 border border-white/10 hover:bg-white/10 transition">
+          <div class="w-12 h-12 rounded-2xl bg-action flex items-center justify-center text-2xl mb-4">💸</div>
+          <h3 class="font-bold text-xl mb-2">Remboursement auto</h3>
+          <p class="text-sm text-white/70 leading-relaxed">
+            En cas de souci, le remboursement intégral est traité sous 5 à 10 jours.
+          </p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============= CORRIDORS / GLOBAL AMBITION ============= -->
+  <section class="py-24 lg:py-32 bg-white">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="max-w-3xl mx-auto text-center mb-12 reveal">
+        <div class="inline-block px-4 py-1.5 bg-cream rounded-full text-sm font-semibold text-action mb-4">
+          Une ambition mondiale
+        </div>
+        <h2 class="text-4xl lg:text-5xl font-extrabold leading-tight mb-4">
+          Un voyage. Une livraison.<br />
+          <span class="text-gradient">Partout sur la planète.</span>
+        </h2>
+        <p class="text-lg text-ink-muted">
+          Bostafly lance d'abord le corridor France ↔ Maroc, mais l'app fonctionne
+          déjà n'importe où dans le monde. Chaque voyageur peut publier sa destination.
+        </p>
+      </div>
+
+      <!-- Map illustrative -->
+      <div class="relative max-w-5xl mx-auto reveal">
+        <div class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-4">
+          <div class="relative bg-gradient-to-br from-primary-500 to-primary-700 rounded-2xl p-5 text-white shadow-lg hover:scale-105 transition">
+            <span class="absolute top-3 right-3 text-xs bg-white/20 px-2 py-0.5 rounded-full font-semibold">Actif ✓</span>
+            <p class="text-3xl mb-2">🇫🇷 ↔ 🇲🇦</p>
+            <p class="font-bold">France ↔ Maroc</p>
+            <p class="text-xs opacity-80 mt-1">Premier corridor</p>
+          </div>
+          <div class="bg-slate-50 rounded-2xl p-5 hover:scale-105 transition">
+            <p class="text-3xl mb-2">🇫🇷 ↔ 🇸🇳</p>
+            <p class="font-bold text-ink">France ↔ Sénégal</p>
+            <p class="text-xs text-ink-muted mt-1">Bientôt</p>
+          </div>
+          <div class="bg-slate-50 rounded-2xl p-5 hover:scale-105 transition">
+            <p class="text-3xl mb-2">🇫🇷 ↔ 🇹🇳</p>
+            <p class="font-bold text-ink">France ↔ Tunisie</p>
+            <p class="text-xs text-ink-muted mt-1">Bientôt</p>
+          </div>
+          <div class="bg-slate-50 rounded-2xl p-5 hover:scale-105 transition">
+            <p class="text-3xl mb-2">🇫🇷 ↔ 🇩🇿</p>
+            <p class="font-bold text-ink">France ↔ Algérie</p>
+            <p class="text-xs text-ink-muted mt-1">Bientôt</p>
+          </div>
+          <div class="bg-slate-50 rounded-2xl p-5 hover:scale-105 transition">
+            <p class="text-3xl mb-2">🇫🇷 ↔ 🇱🇧</p>
+            <p class="font-bold text-ink">France ↔ Liban</p>
+            <p class="text-xs text-ink-muted mt-1">Bientôt</p>
+          </div>
+          <div class="bg-slate-50 rounded-2xl p-5 hover:scale-105 transition">
+            <p class="text-3xl mb-2">🇫🇷 ↔ 🇨🇮</p>
+            <p class="font-bold text-ink">France ↔ Côte d'Ivoire</p>
+            <p class="text-xs text-ink-muted mt-1">Bientôt</p>
+          </div>
+          <div class="bg-slate-50 rounded-2xl p-5 hover:scale-105 transition">
+            <p class="text-3xl mb-2">🇪🇺 ↔ 🇺🇸</p>
+            <p class="font-bold text-ink">Europe ↔ USA</p>
+            <p class="text-xs text-ink-muted mt-1">Bientôt</p>
+          </div>
+          <div class="bg-slate-50 rounded-2xl p-5 hover:scale-105 transition">
+            <p class="text-3xl mb-2">🌍</p>
+            <p class="font-bold text-ink">Et bien plus</p>
+            <p class="text-xs text-ink-muted mt-1">À ta demande</p>
+          </div>
+        </div>
+        <p class="text-center text-sm text-ink-muted mt-8">
+          💡 <strong>Tu voyages vers un autre pays ?</strong> Publie ton trajet, tu seras peut-être le premier·e à ouvrir un nouveau corridor.
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============= IMPACT ============= -->
+  <section class="py-24 lg:py-32 bg-gradient-to-br from-primary-500 to-primary-700 text-white">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="text-center reveal mb-16">
+        <h2 class="text-4xl lg:text-5xl font-extrabold leading-tight">
+          Un nouveau mode d'envoi.<br />
+          <span class="text-action">Plus humain, plus écolo.</span>
+        </h2>
+      </div>
+      <div class="grid sm:grid-cols-3 gap-12 text-center">
+        <div class="reveal">
+          <p class="font-heading font-extrabold text-6xl lg:text-7xl">2 500+</p>
+          <p class="text-lg text-white/80 mt-2">Documents livrés</p>
+        </div>
+        <div class="reveal">
+          <p class="font-heading font-extrabold text-6xl lg:text-7xl">48h</p>
+          <p class="text-lg text-white/80 mt-2">Délai moyen de livraison</p>
+        </div>
+        <div class="reveal">
+          <p class="font-heading font-extrabold text-6xl lg:text-7xl">4.9 ★</p>
+          <p class="text-lg text-white/80 mt-2">Note moyenne</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============= TESTIMONIALS ============= -->
+  <section class="py-24 lg:py-32">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="max-w-3xl mx-auto text-center mb-16 reveal">
+        <div class="inline-block px-4 py-1.5 bg-cream rounded-full text-sm font-semibold text-action mb-4">
+          Ils ont essayé
+        </div>
+        <h2 class="text-4xl lg:text-5xl font-extrabold leading-tight">
+          Ce qu'on dit de Bostafly.
+        </h2>
+      </div>
+      <div class="grid md:grid-cols-3 gap-6">
+        <div class="reveal bg-slate-50 rounded-3xl p-6 hover:shadow-xl transition">
+          <div class="flex gap-1 mb-4">
+            <span class="text-action text-lg">★★★★★</span>
+          </div>
+          <p class="text-ink leading-relaxed mb-6">
+            "J'ai envoyé un acte de naissance à ma sœur à Casablanca en 2 jours.
+            Le voyageur était top, code en main, signature à l'arrivée. Bluffant."
+          </p>
+          <div class="flex items-center gap-3">
+            <div class="w-10 h-10 rounded-full bg-primary-500 text-white font-bold flex items-center justify-center">N</div>
+            <div>
+              <p class="font-semibold text-sm">Nadia, expéditrice</p>
+              <p class="text-xs text-ink-muted">Paris</p>
+            </div>
+          </div>
+        </div>
+        <div class="reveal bg-slate-50 rounded-3xl p-6 hover:shadow-xl transition">
+          <div class="flex gap-1 mb-4">
+            <span class="text-action text-lg">★★★★★</span>
+          </div>
+          <p class="text-ink leading-relaxed mb-6">
+            "Je voyage 2x par mois entre Lyon et Marrakech. Bostafly me rapporte
+            150€ par voyage en moyenne. Mon billet est presque payé."
+          </p>
+          <div class="flex items-center gap-3">
+            <div class="w-10 h-10 rounded-full bg-action text-white font-bold flex items-center justify-center">K</div>
+            <div>
+              <p class="font-semibold text-sm">Karim, voyageur</p>
+              <p class="text-xs text-ink-muted">Lyon</p>
+            </div>
+          </div>
+        </div>
+        <div class="reveal bg-slate-50 rounded-3xl p-6 hover:shadow-xl transition">
+          <div class="flex gap-1 mb-4">
+            <span class="text-action text-lg">★★★★★</span>
+          </div>
+          <p class="text-ink leading-relaxed mb-6">
+            "Une alternative géniale à DHL pour la diaspora. Plus humain, et 4x moins cher.
+            Je recommande à toute ma famille."
+          </p>
+          <div class="flex items-center gap-3">
+            <div class="w-10 h-10 rounded-full bg-primary-700 text-white font-bold flex items-center justify-center">M</div>
+            <div>
+              <p class="font-semibold text-sm">Mehdi, expéditeur</p>
+              <p class="text-xs text-ink-muted">Marseille</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============= FAQ ============= -->
+  <section id="faq" class="py-24 lg:py-32 bg-slate-50">
+    <div class="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="text-center mb-16 reveal">
+        <div class="inline-block px-4 py-1.5 bg-primary-50 rounded-full text-sm font-semibold text-primary-700 mb-4">
+          Questions fréquentes
+        </div>
+        <h2 class="text-4xl lg:text-5xl font-extrabold leading-tight">
+          Tout ce que tu te demandes.
+        </h2>
+      </div>
+
+      <div class="space-y-4">
+        <details class="reveal bg-white rounded-2xl p-6 group">
+          <summary class="flex justify-between items-center font-bold text-lg">
+            Est-ce vraiment sécurisé ?
+            <svg class="faq-chev w-5 h-5 text-primary-500 transition-transform shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5"><path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7" /></svg>
+          </summary>
+          <p class="mt-4 text-ink-muted leading-relaxed">
+            Oui. Chaque utilisateur est vérifié par KYC, le paiement est bloqué chez Stripe jusqu'à la remise,
+            et un code à 4 chiffres garantit que le bon colis arrive à la bonne personne.
+          </p>
+        </details>
+
+        <details class="reveal bg-white rounded-2xl p-6 group">
+          <summary class="flex justify-between items-center font-bold text-lg">
+            Que se passe-t-il si le voyageur ne livre pas ?
+            <svg class="faq-chev w-5 h-5 text-primary-500 transition-transform shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5"><path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7" /></svg>
+          </summary>
+          <p class="mt-4 text-ink-muted leading-relaxed">
+            Tu es intégralement remboursé sous 5 à 10 jours ouvrés. Le voyageur ne reçoit son paiement qu'après
+            avoir saisi ton code de remise. Sans code, pas d'argent.
+          </p>
+        </details>
+
+        <details class="reveal bg-white rounded-2xl p-6 group">
+          <summary class="flex justify-between items-center font-bold text-lg">
+            Quels types d'objets peut-on envoyer ?
+            <svg class="faq-chev w-5 h-5 text-primary-500 transition-transform shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5"><path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7" /></svg>
+          </summary>
+          <p class="mt-4 text-ink-muted leading-relaxed">
+            Documents administratifs, contrats, papiers de famille, petits cadeaux, médicaments (avec ordonnance).
+            Tout ce qui rentre dans une enveloppe ou un petit colis. Les substances illégales sont strictement interdites.
+          </p>
+        </details>
+
+        <details class="reveal bg-white rounded-2xl p-6 group">
+          <summary class="flex justify-between items-center font-bold text-lg">
+            Quels pays sont supportés ?
+            <svg class="faq-chev w-5 h-5 text-primary-500 transition-transform shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5"><path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7" /></svg>
+          </summary>
+          <p class="mt-4 text-ink-muted leading-relaxed">
+            Bostafly est conçu pour fonctionner partout dans le monde — tout dépend des voyageurs qui publient
+            des trajets. Le premier corridor que nous activons en priorité est <strong>France ↔ Maroc</strong>,
+            mais tu peux dès aujourd'hui créer un trajet depuis n'importe où vers n'importe où.
+            Nos prochaines villes prioritaires : Dakar, Beyrouth, Tunis, Alger, Abidjan, New York, Dubai.
+          </p>
+        </details>
+
+        <details class="reveal bg-white rounded-2xl p-6 group">
+          <summary class="flex justify-between items-center font-bold text-lg">
+            Comment je deviens voyageur ?
+            <svg class="faq-chev w-5 h-5 text-primary-500 transition-transform shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5"><path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7" /></svg>
+          </summary>
+          <p class="mt-4 text-ink-muted leading-relaxed">
+            Télécharge l'app, valide ton identité (pièce d'identité + selfie), et publie ton premier trajet.
+            En moins de 5 minutes tu es opérationnel.
+          </p>
+        </details>
+
+        <details class="reveal bg-white rounded-2xl p-6 group">
+          <summary class="flex justify-between items-center font-bold text-lg">
+            Bostafly prend une commission ?
+            <svg class="faq-chev w-5 h-5 text-primary-500 transition-transform shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5"><path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7" /></svg>
+          </summary>
+          <p class="mt-4 text-ink-muted leading-relaxed">
+            Oui, 5€ de commission par livraison (intégralement inclus dans les 18€). Cela couvre les frais
+            de paiement Stripe, l'infrastructure, l'assurance et le support. Le voyageur reçoit les 13€ restants.
+          </p>
+        </details>
+
+        <details class="reveal bg-white rounded-2xl p-6 group">
+          <summary class="flex justify-between items-center font-bold text-lg">
+            L'app est dispo sur iPhone et Android ?
+            <svg class="faq-chev w-5 h-5 text-primary-500 transition-transform shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5"><path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7" /></svg>
+          </summary>
+          <p class="mt-4 text-ink-muted leading-relaxed">
+            Android est disponible dès maintenant. Version iOS prévue dans les semaines qui viennent.
+            Laisse-nous ton email pour être prévenu en avant-première.
+          </p>
+        </details>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============= DOWNLOAD ============= -->
+  <section id="download" class="py-24 lg:py-32 relative overflow-hidden">
+    <div class="absolute inset-0 bg-gradient-to-br from-primary-500 to-primary-700"></div>
+    <div class="absolute top-0 right-0 w-1/2 h-full bg-gradient-to-l from-action/20 to-transparent"></div>
+
+    <div class="relative max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 text-center text-white reveal">
+      <div class="text-8xl mb-6">✈️</div>
+      <h2 class="text-4xl lg:text-6xl font-extrabold leading-tight mb-6">
+        Prêt à envoyer ton premier document ?
+      </h2>
+      <p class="text-xl text-white/80 mb-10 max-w-2xl mx-auto">
+        Télécharge Bostafly et trouve un voyageur en moins d'1 minute.
+      </p>
+      <div class="flex flex-col sm:flex-row gap-4 justify-center">
+        <a href="#" class="inline-flex items-center justify-center gap-3 bg-white text-ink font-bold text-lg px-8 py-4 rounded-2xl shadow-xl hover:shadow-2xl hover:-translate-y-0.5 transition">
+          <svg class="w-7 h-7" fill="currentColor" viewBox="0 0 24 24"><path d="M3,20.5V3.5C3,2.91 3.34,2.39 3.84,2.15L13.69,12L3.84,21.85C3.34,21.6 3,21.09 3,20.5M16.81,15.12L6.05,21.34L14.54,12.85L16.81,15.12M20.16,10.81C20.5,11.08 20.75,11.5 20.75,12C20.75,12.5 20.53,12.9 20.18,13.18L17.89,14.5L15.39,12L17.89,9.5L20.16,10.81M6.05,2.66L16.81,8.88L14.54,11.15L6.05,2.66Z"/></svg>
+          <div class="text-left">
+            <p class="text-xs text-ink-muted -mb-0.5">Bientôt sur</p>
+            <p class="text-lg">Google Play</p>
+          </div>
+        </a>
+        <a href="#" class="inline-flex items-center justify-center gap-3 bg-white text-ink font-bold text-lg px-8 py-4 rounded-2xl shadow-xl hover:shadow-2xl hover:-translate-y-0.5 transition">
+          <svg class="w-7 h-7" fill="currentColor" viewBox="0 0 24 24"><path d="M18.71 19.5C17.88 20.74 17 21.95 15.66 21.97C14.32 22 13.89 21.18 12.37 21.18C10.84 21.18 10.37 21.95 9.1 22C7.79 22.05 6.8 20.68 5.96 19.47C4.25 17 2.94 12.45 4.7 9.39C5.57 7.87 7.13 6.91 8.82 6.88C10.1 6.86 11.32 7.75 12.11 7.75C12.89 7.75 14.37 6.68 15.92 6.84C16.57 6.87 18.39 7.1 19.56 8.82C19.47 8.88 17.39 10.1 17.41 12.63C17.44 15.65 20.06 16.66 20.09 16.67C20.06 16.74 19.67 18.11 18.71 19.5M13 3.5C13.73 2.67 14.94 2.04 15.94 2C16.07 3.17 15.6 4.35 14.9 5.19C14.21 6.04 13.07 6.7 11.95 6.61C11.8 5.46 12.36 4.26 13 3.5Z"/></svg>
+          <div class="text-left">
+            <p class="text-xs text-ink-muted -mb-0.5">Bientôt sur</p>
+            <p class="text-lg">App Store</p>
+          </div>
+        </a>
+      </div>
+
+      <!-- Email capture -->
+      <form class="mt-12 max-w-md mx-auto" onsubmit="event.preventDefault(); window.location.href='mailto:contact@bostafly.com?subject=Je veux être prévenu·e du lancement&body=' + encodeURIComponent('Mon email : ' + this.email.value);">
+        <p class="text-sm text-white/80 mb-3">Ou laisse-nous ton email pour être prévenu en avant-première :</p>
+        <div class="flex gap-2 bg-white rounded-full p-1.5 shadow-2xl">
+          <input type="email" name="email" required placeholder="ton@email.com" class="flex-1 bg-transparent px-4 py-2 text-ink focus:outline-none" />
+          <button type="submit" class="bg-action hover:bg-action/90 text-ink font-bold px-6 py-2.5 rounded-full transition">
+            Me prévenir
+          </button>
+        </div>
+      </form>
+    </div>
+  </section>
+
+  <!-- ============= FOOTER ============= -->
+  <footer class="bg-ink text-white/70 py-16">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="grid md:grid-cols-4 gap-10">
+        <div>
+          <div class="flex items-center gap-3 mb-4">
+            <img src="icon-only.png" alt="Bostafly" class="h-12 w-auto brightness-0 invert opacity-90" />
+            <span class="font-heading font-extrabold text-2xl text-white">Bostafly</span>
+          </div>
+          <p class="text-sm leading-relaxed">
+            Le crowdshipping mondial entre particuliers.
+            Plus rapide, plus humain, plus économique.
+          </p>
+        </div>
+
+        <div>
+          <h4 class="font-bold text-white mb-4">Produit</h4>
+          <ul class="space-y-2 text-sm">
+            <li><a href="#how" class="hover:text-white transition">Comment ça marche</a></li>
+            <li><a href="#senders" class="hover:text-white transition">Expéditeurs</a></li>
+            <li><a href="#travelers" class="hover:text-white transition">Voyageurs</a></li>
+            <li><a href="#security" class="hover:text-white transition">Sécurité</a></li>
+            <li><a href="#faq" class="hover:text-white transition">FAQ</a></li>
+          </ul>
+        </div>
+
+        <div>
+          <h4 class="font-bold text-white mb-4">Légal</h4>
+          <ul class="space-y-2 text-sm">
+            <li><a href="cgu.html" class="hover:text-white transition">Conditions générales</a></li>
+            <li><a href="privacy.html" class="hover:text-white transition">Politique de confidentialité</a></li>
+            <li><a href="mentions.html" class="hover:text-white transition">Mentions légales</a></li>
+            <li><a href="cookies.html" class="hover:text-white transition">Cookies</a></li>
+          </ul>
+        </div>
+
+        <div>
+          <h4 class="font-bold text-white mb-4">Contact</h4>
+          <ul class="space-y-2 text-sm">
+            <li><a href="mailto:contact@bostafly.com" class="hover:text-white transition">contact@bostafly.com</a></li>
+            <li class="pt-2">
+              <p class="text-xs">SIRET 889 010 591</p>
+              <p class="text-xs">Maison Andrade — Auto-entrepreneur</p>
+            </li>
+          </ul>
+          <div class="flex gap-3 mt-4">
+            <a href="#" class="w-9 h-9 rounded-full bg-white/10 hover:bg-white/20 flex items-center justify-center transition">
+              <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 24 24"><path d="M22.46 6c-.77.35-1.6.58-2.46.69.88-.53 1.56-1.37 1.88-2.38-.83.5-1.75.85-2.72 1.05C18.37 4.5 17.26 4 16 4c-2.35 0-4.27 1.92-4.27 4.29 0 .34.04.67.11.98C8.28 9.09 5.11 7.38 3 4.79c-.37.63-.58 1.37-.58 2.15 0 1.49.75 2.81 1.91 3.56-.71 0-1.37-.2-1.95-.5v.03c0 2.08 1.48 3.82 3.44 4.21a4.22 4.22 0 0 1-1.93.07 4.28 4.28 0 0 0 4 2.98 8.521 8.521 0 0 1-5.33 1.84c-.34 0-.68-.02-1.02-.06C3.44 20.29 5.7 21 8.12 21 16 21 20.33 14.46 20.33 8.79c0-.19 0-.37-.01-.56.84-.6 1.56-1.36 2.14-2.23z"/></svg>
+            </a>
+            <a href="#" class="w-9 h-9 rounded-full bg-white/10 hover:bg-white/20 flex items-center justify-center transition">
+              <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 24 24"><path d="M12 2.04c-5.5 0-10 4.49-10 10.02 0 5 3.66 9.15 8.44 9.9v-7H7.9v-2.9h2.54V9.85c0-2.51 1.49-3.89 3.78-3.89 1.09 0 2.23.19 2.23.19v2.47h-1.26c-1.24 0-1.63.77-1.63 1.56v1.88h2.78l-.45 2.9h-2.33v7a10 10 0 0 0 8.44-9.9c0-5.53-4.5-10.02-10-10.02z"/></svg>
+            </a>
+            <a href="#" class="w-9 h-9 rounded-full bg-white/10 hover:bg-white/20 flex items-center justify-center transition">
+              <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 24 24"><path d="M7.8 2h8.4C19.4 2 22 4.6 22 7.8v8.4a5.8 5.8 0 0 1-5.8 5.8H7.8C4.6 22 2 19.4 2 16.2V7.8A5.8 5.8 0 0 1 7.8 2m-.2 2A3.6 3.6 0 0 0 4 7.6v8.8C4 18.39 5.61 20 7.6 20h8.8a3.6 3.6 0 0 0 3.6-3.6V7.6C20 5.61 18.39 4 16.4 4H7.6m9.65 1.5a1.25 1.25 0 0 1 1.25 1.25A1.25 1.25 0 0 1 17.25 8 1.25 1.25 0 0 1 16 6.75a1.25 1.25 0 0 1 1.25-1.25M12 7a5 5 0 0 1 5 5 5 5 0 0 1-5 5 5 5 0 0 1-5-5 5 5 0 0 1 5-5m0 2a3 3 0 0 0-3 3 3 3 0 0 0 3 3 3 3 0 0 0 3-3 3 3 0 0 0-3-3z"/></svg>
+            </a>
+          </div>
+        </div>
+      </div>
+      <div class="border-t border-white/10 mt-12 pt-8 flex flex-col sm:flex-row items-center justify-between gap-4">
+        <p class="text-xs">© 2026 Bostafly — Tous droits réservés.</p>
+        <p class="text-xs">Fait avec ❤️ pour connecter le monde.</p>
+      </div>
+    </div>
+  </footer>
+
+  <!-- ============= SCRIPTS ============= -->
+  <script>
+    // Sticky nav blur
+    const nav = document.getElementById('nav');
+    window.addEventListener('scroll', () => {
+      if (window.scrollY > 10) nav.classList.add('nav-scrolled');
+      else nav.classList.remove('nav-scrolled');
+    });
+
+    // Reveal on scroll
+    const observer = new IntersectionObserver(entries => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('visible');
+          observer.unobserve(entry.target);
+        }
+      });
+    }, { threshold: 0.15, rootMargin: '0px 0px -50px 0px' });
+    document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+  </script>
+</body>
+</html>
