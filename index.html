@@ -383,8 +383,10 @@
               </div>
             </div>
 
-            <!-- Floating message bubble — placée à mi-hauteur du téléphone à GAUCHE pour éviter de chevaucher le bouton "Confirmer la remise" -->
-            <div class="absolute top-[42%] -translate-y-1/2 -left-4 sm:-left-10 lg:-left-16 bg-white rounded-2xl shadow-xl p-3 max-w-[150px] sm:max-w-[170px] glass border border-white">
+            <!-- Floating message bubble — affichée uniquement sur desktop (≥ lg) pour ne pas
+                 chevaucher le téléphone sur les petits écrans. Position latérale à gauche
+                 de la maquette, mi-hauteur. -->
+            <div class="hidden lg:block absolute top-[42%] -translate-y-1/2 -left-20 bg-white rounded-2xl shadow-xl p-3 max-w-[200px] glass border border-white">
               <div class="flex items-center gap-2 mb-1">
                 <div class="w-6 h-6 rounded-full bg-primary-500 text-white text-xs font-bold flex items-center justify-center">M</div>
                 <span class="text-xs font-semibold">Mehdi</span>
@@ -1058,7 +1060,7 @@
             <li><a href="mailto:contact@bostafly.com" class="hover:text-white transition">contact@bostafly.com</a></li>
             <li class="pt-2">
               <p class="text-xs">SIRET 889 010 591</p>
-              <p class="text-xs">Maison Andrade — Auto-entrepreneur</p>
+              <p class="text-xs">Maison Andrade</p>
             </li>
           </ul>
           <div class="flex gap-3 mt-4">
